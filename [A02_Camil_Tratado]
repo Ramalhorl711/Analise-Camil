@@ -1,0 +1,41 @@
+IF OBJECT_ID('[dbo].[A02_Camil_Tratado]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[A02_Camil_Tratado];
+SELECT [id_recebivel] AS 'ID'
+      ,[quantidade de parcelas]	AS 'QTD_TOTAL_PARCELAS'
+      ,[numero da parcela] AS 'NUM_PARCELA'
+      ,[cpf_cnpj_devedor] AS 'CPF_CNPJ_DEVEDOR'
+      ,[nome_id_devedor] AS 'NOME_DEVEDOR'
+      ,[UF_devedor] AS 'ESTADO_DEVEDOR'
+      ,CAST(REPLACE(REPLACE([ valor_total ],'.',''),',','.') AS FLOAT) AS 'VALOR_RECEBÍVEL'
+      ,CAST([data_emissao] AS DATE) AS 'DATA_EMISSAO'
+      ,CAST([data_vencimento_original] AS DATE) AS 'VENCIMENTO_ORIGINAL'
+      ,CAST([data_vencimento_final] AS DATE) AS 'VENCIMENTO_FINAL'
+      ,[status] AS 'STATUS'
+      ,[ tipo_recebivel ] AS 'TIPO_TITULO'
+	  ,CASE
+		  WHEN [ valor_pago ] = ' -   ' THEN NULL
+		  ELSE CAST(REPLACE(REPLACE([ valor_pago ],'.',''),',','.') AS FLOAT)
+	  END AS 'VALOR_PAGO'
+      ,CAST([data_pagamento] AS DATE) AS 'DATA_PAGAMENTO'
+	  ,CASE
+		  WHEN [ indicativo_de_renegociação ] = ' -   ' THEN NULL
+		  WHEN [ indicativo_de_renegociação ] = '0' THEN NULL
+		  ELSE CAST(REPLACE(REPLACE([ indicativo_de_renegociação ],'.',''),',','.') AS FLOAT)
+	  END AS 'IND_RENEG'
+      ,CASE
+		  WHEN [data_renegociação] = '' THEN NULL
+		  ELSE CAST([data_renegociação] AS DATE) 
+      END AS 'DATA_RENEG'
+	  ,CASE
+		  WHEN [indicativo_titulo_derivado_de_renegociação] = ' -   ' THEN NULL
+		  WHEN [indicativo_titulo_derivado_de_renegociação] = '0' THEN NULL
+		  ELSE CAST(REPLACE(REPLACE([indicativo_titulo_derivado_de_renegociação],'.',''),',','.') AS FLOAT)
+	  END AS 'IND_TITULO_DERIVADO_RENEG'
+	  ,CASE
+		  WHEN [ indicativo_de_devolução ] = ' -   ' THEN NULL
+		  WHEN [ indicativo_de_devolução ] = '0' THEN NULL
+		  ELSE CAST(REPLACE(REPLACE([ indicativo_de_devolução ],'.',''),',','.') AS FLOAT)
+	  END AS 'IND_DEVOLUCAO'
+      ,[rating_devedor] AS 'RATING_DEVEDOR'
+	  into [dbo].[A02_Camil_Tratado]
+  FROM [camil].[dbo].[A01_Camil_Concatenado]
