@@ -39,4 +39,4 @@ SELECT [id_recebivel] AS 'ID'
       ,[rating_devedor] AS 'RATING_DEVEDOR'
 	  into [dbo].[A02_Camil_Tratado]
   FROM [camil].[dbo].[A01_Camil_Concatenado]
-  where [ tipo_recebivel ] = 'Duplicata'
+  where [ tipo_recebivel ] = 'Duplicata' and [UF_devedor] <> 'EX'
