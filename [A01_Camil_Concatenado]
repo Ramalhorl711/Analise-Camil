@@ -1,0 +1,18 @@
+IF OBJECT_ID('[dbo].[A01_Camil_Concatenado]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[A01_Camil_Concatenado];
+WITH CONCATENADO AS(
+SELECT *
+FROM [dbo].[Layout_HistoricoVendas Safra 22-23]
+UNION ALL
+SELECT *
+FROM [dbo].[Layout_HistoricoVendas Safra 23-24]
+UNION ALL
+SELECT *
+FROM [dbo].[Layout_HistoricoVendas Safra 24-25]
+UNION ALL
+SELECT *
+FROM [dbo].[Layout_HistoricoVendas Safra 25 (mar-set)]
+) 
+SELECT *
+INTO [dbo].[A01_Camil_Concatenado]
+from CONCATENADO
