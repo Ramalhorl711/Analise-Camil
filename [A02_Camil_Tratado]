@@ -13,10 +13,13 @@ SELECT [id_recebivel] AS 'ID'
       ,[status] AS 'STATUS'
       ,[ tipo_recebivel ] AS 'TIPO_TITULO'
 	  ,CASE
-		  WHEN [ valor_pago ] = ' -   ' THEN NULL
+		  WHEN [ valor_pago ] = ' -   ' THEN 0
 		  ELSE CAST(REPLACE(REPLACE([ valor_pago ],'.',''),',','.') AS FLOAT)
 	  END AS 'VALOR_PAGO'
-      ,CAST([data_pagamento] AS DATE) AS 'DATA_PAGAMENTO'
+      ,CASE 
+		  WHEN [data_pagamento] = '' THEN NULL
+		  ELSE CAST([data_pagamento] AS DATE) 
+	  END AS 'DATA_PAGAMENTO'
 	  ,CASE
 		  WHEN [ indicativo_de_renegociação ] = ' -   ' THEN NULL
 		  WHEN [ indicativo_de_renegociação ] = '0' THEN NULL
